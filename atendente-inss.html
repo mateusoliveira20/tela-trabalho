@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atendimento Digital - INSS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5f7fa;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .inss-logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 8px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+
+        .agent-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        .agent-status {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+        }
+
+        .protocol-info {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .messages-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 80%;
+            animation: slideIn 0.3s ease;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .message.agent .message-avatar {
+            background: #1e3a8a;
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: #6b7280;
+            color: white;
+        }
+
+        .message-content {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .message.user .message-content {
+            background: #1e3a8a;
+            color: white;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .message.user .message-time {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .benefit-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 8px;
+        }
+
+        .benefit-header {
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 6px;
+        }
+
+        .benefit-detail {
+            font-size: 0.9rem;
+            color: #475569;
+            margin: 3px 0;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 10px 0;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #6b7280;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        .quick-actions {
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #334155;
+        }
+
+        .quick-btn:hover {
+            background: #e2e8f0;
+            border-color: #94a3b8;
+        }
+
+        .input-area {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .input-container {
+            flex: 1;
+            position: relative;
+        }
+
+        .message-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 24px;
+            resize: none;
+            font-family: inherit;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            max-height: 100px;
+            min-height: 44px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .message-input:focus {
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        .send-btn {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover {
+            background: #1e40af;
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info-banner {
+            background: #dbeafe;
+            border: 1px solid #93c5fd;
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            color: #1e40af;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .protocol-banner {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            color: #166534;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            .chat-header {
+                padding: 15px;
+            }
+            
+            .messages-area {
+                padding: 15px;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .input-area {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-header">
+        <div class="header-info">
+            <div class="inss-logo">INSS</div>
+            <div class="agent-details">
+                <h3>Atendimento Digital INSS</h3>
+                <div class="agent-status">
+                    <span class="status-dot"></span>
+                    Disponível 24h - Tempo médio: 1min
+                </div>
+            </div>
+        </div>
+        <div class="protocol-info">
+            Protocolo: <strong id="protocolNumber">INS2025053112345</strong>
+        </div>
+        <button class="close-btn" onclick="closeChat()">&times;</button>
+    </div>
+
+    <div class="info-banner">
+        <span>🛡️</span>
+        <span>Atendimento oficial do INSS. Seus dados estão protegidos conforme a Lei Geral de Proteção de Dados (LGPD).</span>
+    </div>
+
+    <div class="protocol-banner">
+        <span>📄 Protocolo de atendimento gerado automaticamente para acompanhamento</span>
+        <button onclick="copyProtocol()" style="background: none; border: none; color: #166534; cursor: pointer;">📋 Copiar</button>
+    </div>
+
+    <div class="chat-container">
+        <div class="messages-area" id="messages">
+            <div class="message agent">
+                <div class="message-avatar">INSS</div>
+                <div class="message-content">
+                    <div>Olá! Bem-vindo ao Atendimento Digital do INSS. Sou seu assistente virtual e estou aqui para ajudá-lo com informações sobre benefícios previdenciários.</div>
+                    <div class="message-time">19:21</div>
+                </div>
+            </div>
+
+            <div class="message agent">
+                <div class="message-avatar">INSS</div>
+                <div class="message-content">
+                    <div>Como posso ajudá-lo hoje? Você pode escolher uma das opções abaixo ou digitar sua dúvida específica:</div>
+                    <div class="message-time">19:21</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <button class="quick-btn" onclick="sendQuickMessage('Consultar benefício')">💰 Consultar benefício</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Agendar perícia')">🩺 Agendar perícia</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Extrato previdenciário')">📊 Extrato previdenciário</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Prova de vida')">✅ Prova de vida</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Aposentadoria')">🏖️ Aposentadoria</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Auxílio-doença')">🏥 Auxílio-doença</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Pensão por morte')">👥 Pensão por morte</button>
+            <button class="quick-btn" onclick="sendQuickMessage('Outros assuntos')">💬 Outros assuntos</button>
+        </div>
+
+        <div class="input-area">
+            <div class="input-container">
+                <textarea 
+                    class="message-input" 
+                    id="messageInput" 
+                    placeholder="Digite sua dúvida sobre benefícios do INSS..."
+                    onkeypress="handleKeyPress(event)"
+                    oninput="adjustTextareaHeight(this)"
+                ></textarea>
+            </div>
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                <span>➤</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let isTyping = false;
+        let protocolNumber = 'INS2025053112345';
+
+        function getCurrentTime() {
+            return new Date().toLocaleTimeString('pt-BR', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+        }
+
+        function addMessage(content, isUser = false) {
+            const messagesArea = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'agent'}`;
+            
+            const avatar = isUser ? 'VOCÊ' : 'INSS';
+            const time = getCurrentTime();
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-content">
+                    <div>${content}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            
+            messagesArea.appendChild(messageDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        function addBenefitCard(benefitData) {
+            const messagesArea = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message agent';
+            
+            const time = getCurrentTime();
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">INSS</div>
+                <div class="message-content">
+                    <div>Encontrei informações sobre seu benefício:</div>
+                    <div class="benefit-card">
+                        <div class="benefit-header">${benefitData.tipo}</div>
+                        <div class="benefit-detail"><strong>Número:</strong> ${benefitData.numero}</div>
+                        <div class="benefit-detail"><strong>Situação:</strong> ${benefitData.situacao}</div>
+                        <div class="benefit-detail"><strong>Valor:</strong> ${benefitData.valor}</div>
+                        <div class="benefit-detail"><strong>Próximo pagamento:</strong> ${benefitData.proximoPagamento}</div>
+                    </div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            
+            messagesArea.appendChild(messageDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            if (isTyping) return;
+            isTyping = true;
+            
+            const messagesArea = document.getElementById('messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typing';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">INSS</div>
+                <div class="typing-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            `;
+            
+            messagesArea.appendChild(typingDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingElement = document.getElementById('typing');
+            if (typingElement) {
+                typingElement.remove();
+                isTyping = false;
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            addMessage(message, true);
+            input.value = '';
+            adjustTextareaHeight(input);
+            
+            showTypingIndicator();
+            setTimeout(() => {
+                hideTypingIndicator();
+                generateResponse(message);
+            }, Math.random() * 2000 + 1000);
+        }
+
+        function sendQuickMessage(message) {
+            addMessage(message, true);
+            
+            showTypingIndicator();
+            setTimeout(() => {
+                hideTypingIndicator();
+                generateResponse(message);
+            }, Math.random() * 2000 + 1000);
+        }
+
+        function generateResponse(userMessage) {
+            const responses = {
+                'Consultar benefício': () => {
+                    addMessage('Para consultar seu benefício, vou simular uma busca. Em um sistema real, você faria login com seu CPF e senha.');
+                    setTimeout(() => {
+                        addBenefitCard({
+                            tipo: 'Aposentadoria por Idade',
+                            numero: '123.456.789-0',
+                            situacao: 'Em manutenção',
+                            valor: 'R$ 1.412,00',
+                            proximoPagamento: '25/06/2025'
+                        });
+                    }, 1500);
+                },
+                'Agendar perícia': 'Para agendar perícia médica, você precisa acessar o Meu INSS (aplicativo ou site) com seu CPF e senha. Posso te orientar sobre os documentos necessários se desejar.',
+                'Extrato previdenciário': 'Seu extrato CNIS está disponível no Meu INSS. Este documento mostra todo seu histórico de contribuições. Precisa de ajuda para acessá-lo?',
+                'Prova de vida': 'A prova de vida pode ser feita pelo aplicativo Meu INSS, em bancos conveniados ou presencialmente. O prazo é até seu mês de aniversário. Quer saber o passo a passo?',
+                'Aposentadoria': 'Existem diferentes tipos de aposentadoria: por idade, por tempo de contribuição, especial e por invalidez. Qual tipo te interessa? Posso explicar os requisitos.',
+                'Auxílio-doença': 'Para solicitar auxílio-doença, você precisa passar por perícia médica. O requerimento deve ser feito pelo Meu INSS. Tem alguma dúvida específica sobre este benefício?',
+                'Pensão por morte': 'A pensão por morte é destinada aos dependentes do segurado falecido. Os documentos necessários incluem certidão de óbito e comprovação de dependência. Precisa de mais informações?',
+                'Outros assuntos': 'Estou aqui para ajudar com qualquer dúvida sobre o INSS. Pode ser sobre BPC, salário-maternidade, auxílio-acidente ou outros benefícios. O que você precisa saber?'
+            };
+
+            let response = responses[userMessage];
+            
+            if (typeof response === 'function') {
+                response();
+                return;
+            }
+            
+            if (!response) {
+                if (userMessage.toLowerCase().includes('senha') || userMessage.toLowerCase().includes('login')) {
+                    response = 'Para problemas de acesso ao Meu INSS, você pode redefinir sua senha pelo próprio aplicativo ou site. Precisa do seu CPF e um telefone ou e-mail cadastrado.';
+                } else if (userMessage.toLowerCase().includes('pagamento')) {
+                    response = 'Os pagamentos do INSS seguem um calendário mensal baseado no número final do benefício (sem o dígito). Quer que eu explique as datas de pagamento?';
+                } else if (userMessage.toLowerCase().includes('documentos')) {
+                    response = 'Os documentos necessários variam conforme o benefício solicitado. Qual benefício você pretende requerer? Assim posso listar os documentos específicos.';
+                } else {
+                    response = 'Obrigado pela sua mensagem! Para te ajudar melhor, pode me dar mais detalhes sobre sua dúvida? Trabalho com informações sobre todos os benefícios do INSS.';
+                }
+            }
+
+            addMessage(response);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function adjustTextareaHeight(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+        }
+
+        function copyProtocol() {
+            navigator.clipboard.writeText(protocolNumber).then(() => {
+                alert('Protocolo copiado: ' + protocolNumber);
+            }).catch(() => {
+                alert('Protocolo: ' + protocolNumber);
+            });
+        }
+
+        function closeChat() {
+            if (confirm('Tem certeza que deseja encerrar o atendimento? Anote seu protocolo: ' + protocolNumber)) {
+                alert('Atendimento encerrado. Guarde seu protocolo ' + protocolNumber + ' para futuras consultas. Muito obrigado!');
+            }
+        }
+
+        // Mensagem de boas-vindas adicional
+        setTimeout(() => {
+            showTypingIndicator();
+            setTimeout(() => {
+                hideTypingIndicator();
+                addMessage('💡 Dica: Mantenha sempre em mãos seu CPF, RG e número do PIS/PASEP para consultas mais rápidas!');
+            }, 2000);
+        }, 8000);
+
+        // Gera novo protocolo
+        function generateProtocol() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 100000);
+            return `INS${year}${month}${day}${random}`;
+        }
+
+        // Inicializa protocolo único
+        document.addEventListener('DOMContentLoaded', function() {
+            protocolNumber = generateProtocol();
+            document.getElementById('protocolNumber').textContent = protocolNumber;
+        });
+    </script>
+</body>
+</html>

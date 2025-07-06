@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajuda - Portal do Governo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1c4f96, #2563eb);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1c4f96;
+        }
+
+        .nav-breadcrumb {
+            background: #e3f2fd;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #1c4f96;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .page-title {
+            color: #1c4f96;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .help-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid #1c4f96;
+        }
+
+        .section-title {
+            color: #1c4f96;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            background: #e3f2fd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .help-content {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .help-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .help-list li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .highlight-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box .icon {
+            color: #856404;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .step-card {
+            background: #f8f9ff;
+            border: 1px solid #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .step-number {
+            background: #1c4f96;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+
+        .support-section {
+            background: linear-gradient(135deg, #1c4f96, #2563eb);
+            color: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .support-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .support-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .support-description {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .support-button {
+            background: white;
+            color: #1c4f96;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .support-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: #f0f9ff;
+        }
+
+        .support-contacts {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .help-section {
+                padding: 20px;
+            }
+            
+            .support-section {
+                padding: 30px 20px;
+            }
+            
+            .support-contacts {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                <img src="C:\Users\mateu\OneDrive\Desktop\tela\icon\govbr.png" alt="Ícone" width="40" height="40">
+                </div>
+                <div>
+                    <h1 style="font-size: 1.5rem; font-weight: 600;">Portal do Governo</h1>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">Serviços Públicos Digitais</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-breadcrumb">
+        <div class="breadcrumb">
+            <a href="#">Início</a> > <a href="#">Serviços</a> > <span>Ajuda</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Central de Ajuda</h1>
+        <p class="page-subtitle">Aprenda como utilizar os serviços do Portal do Governo de forma simples e eficiente</p>
+
+        <div class="help-section">
+            <h2 class="section-title">
+                <span class="section-icon">🚀</span>
+                Como começar a usar o portal
+            </h2>
+            <div class="help-content">
+                <p>O Portal do Governo é sua porta de entrada para todos os serviços públicos digitais. Aqui você pode acessar mais de 4.000 serviços do governo federal de forma integrada e segura.</p>
+                
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Crie sua conta</h3>
+                        <p>Faça seu cadastro usando CPF e crie uma senha segura</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Valide sua identidade</h3>
+                        <p>Complete seu perfil com dados pessoais e documentos</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Acesse os serviços</h3>
+                        <p>Navegue pelo catálogo e utilize os serviços disponíveis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <h2 class="section-title">
+                <span class="section-icon">🔐</span>
+                Segurança e autenticação
+            </h2>
+            <div class="help-content">
+                <p>Sua segurança é nossa prioridade. O portal utiliza tecnologia de ponta para proteger seus dados:</p>
+                <ul class="help-list">
+                    <li><strong>Login único:</strong> Uma só conta para todos os serviços do governo</li>
+                    <li><strong>Criptografia:</strong> Todos os dados são protegidos com criptografia avançada</li>
+                    <li><strong>Autenticação em duas etapas:</strong> Camada extra de segurança para sua conta</li>
+                    <li><strong>Monitoramento:</strong> Sistema 24h de detecção de atividades suspeitas</li>
+                </ul>
+                
+                <div class="highlight-box">
+                    <span class="icon">⚠️</span>
+                    <strong>Importante:</strong> Nunca compartilhe sua senha ou dados de acesso. O governo nunca solicita essas informações por email ou telefone.
+                </div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <h2 class="section-title">
+                <span class="section-icon">📋</span>
+                Principais funcionalidades
+            </h2>
+            <div class="help-content">
+                <p>Conheça as principais funcionalidades disponíveis no portal:</p>
+                <ul class="help-list">
+                    <li><strong>Meus Serviços:</strong> Acompanhe o status de todos os seus processos em andamento</li>
+                    <li><strong>Documentos:</strong> Acesse seus documentos digitais oficiais</li>
+                    <li><strong>Notificações:</strong> Receba alertas sobre prazos e atualizações importantes</li>
+                    <li><strong>Histórico:</strong> Consulte todo o histórico de serviços utilizados</li>
+                    <li><strong>Perfil:</strong> Mantenha seus dados pessoais sempre atualizados</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <h2 class="section-title">
+                <span class="section-icon">🛠️</span>
+                Problemas comuns e soluções
+            </h2>
+            <div class="help-content">
+                <p><strong>Esqueci minha senha:</strong></p>
+                <p>Clique em "Esqueci minha senha" na tela de login e siga as instruções enviadas para seu email cadastrado.</p>
+                
+                <p><strong>Não consigo validar minha identidade:</strong></p>
+                <p>Verifique se todos os dados estão corretos e os documentos são legíveis. Em caso de dúvidas, entre em contato com o suporte.</p>
+                
+                <p><strong>Serviço indisponível:</strong></p>
+                <p>Alguns serviços podem estar temporariamente indisponíveis para manutenção. Tente novamente em alguns minutos.</p>
+            </div>
+        </div>
+
+        <div class="support-section">
+            <h2 class="support-title">Precisa de mais ajuda?</h2>
+            <p class="support-description">
+                Nossa equipe de suporte está pronta para ajudar você a resolver qualquer dúvida ou problema
+            </p>
+            
+            <button class="support-button" onclick="openSupport()">
+                Falar com Suporte
+            </button>
+            
+            <div class="support-contacts">
+                <div class="contact-item">
+                    <span>📞</span> 0800 123 4567
+                </div>
+                <div class="contact-item">
+                    <span>✉️</span> suporte@gov.br
+                </div>
+                <div class="contact-item">
+                    <span>💬</span> Chat online disponível
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openSupport() {
+            // Simula abertura do suporte
+            alert('Redirecionando para o suporte técnico...\n\nVocê será conectado com um de nossos atendentes em instantes.');
+        }
+
+        // Efeito de hover suave nos cards
+        document.querySelectorAll('.step-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

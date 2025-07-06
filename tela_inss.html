@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Ajuda - INSS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f4c75, #3282b8);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0f4c75;
+            font-size: 20px;
+        }
+
+        .nav-breadcrumb {
+            background: #e8f4f8;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #0f4c75;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .page-title {
+            color: #0f4c75;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .help-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid #3282b8;
+        }
+
+        .section-title {
+            color: #0f4c75;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            background: #e8f4f8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .help-content {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .help-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .help-list li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .highlight-box {
+            background: #fff8e1;
+            border: 1px solid #ffcc02;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box .icon {
+            color: #f57c00;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .benefit-card {
+            background: #f8fcff;
+            border: 1px solid #e8f4f8;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .benefit-icon {
+            background: #3282b8;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 20px;
+        }
+
+        .benefit-title {
+            color: #0f4c75;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .steps-timeline {
+            position: relative;
+            margin: 25px 0;
+            padding-left: 30px;
+        }
+
+        .step-item {
+            position: relative;
+            margin-bottom: 25px;
+            padding-left: 25px;
+        }
+
+        .step-item::before {
+            content: '';
+            position: absolute;
+            left: -42px;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: #e8f4f8;
+        }
+
+        .step-item::after {
+            content: '';
+            position: absolute;
+            left: -50px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            background: #3282b8;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #3282b8;
+        }
+
+        .step-item:last-child::before {
+            display: none;
+        }
+
+        .step-title {
+            color: #0f4c75;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .support-section {
+            background: linear-gradient(135deg, #0f4c75, #3282b8);
+            color: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .support-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .support-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .support-description {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .support-button {
+            background: white;
+            color: #0f4c75;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .support-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: #f0f9ff;
+        }
+
+        .support-contacts {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #f8fcff, #e8f4f8);
+            border: 1px solid #3282b8;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .info-card h3 {
+            color: #0f4c75;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .help-section {
+                padding: 20px;
+            }
+            
+            .support-section {
+                padding: 30px 20px;
+            }
+            
+            .support-contacts {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .steps-timeline {
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                <img src="C:\Users\mateu\OneDrive\Desktop\tela\icon\inss-logo.png" alt="Ícone" width="40" height="40">
+                </div>
+                <div>
+                    <h1 style="font-size: 1.5rem; font-weight: 600;">INSS</h1>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">Instituto Nacional do Seguro Social</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-breadcrumb">
+        <div class="breadcrumb">
+            <a href="#">Início</a> > <a href="#">Meu INSS</a> > <span>Ajuda</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Central de Ajuda do INSS</h1>
+        <p class="page-subtitle">Tire suas dúvidas sobre aposentadoria, pensões, auxílios e outros benefícios previdenciários</p>
+
+        <div class="help-section">
+            <h2 class="section-title">
+                <span class="section-icon">🏠</span>
+                Como usar o Meu INSS
+            </h2>
+            <div class="help-content">
+                <p>O Meu INSS é o portal oficial onde você pode solicitar, acompanhar e gerenciar todos os seus benefícios previdenciários de forma digital, sem sair de casa.</p>
+                
+                <div class="steps-timeline">
+                    <div class="step-item">
+                        <div class="step-title">1. Faça seu login</div>
+                        <p>Acesse com sua conta gov.br usando CPF e senha</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-title">2. Consulte seu CNIS</div>
+                        <p>Verifique seu histórico de contribuições e vínculos empregatícios</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-title">3. Solicite benefícios</div>
+                        <p>Requeira aposentadoria, auxílios ou outros benefícios disponíveis</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-title">4. Acompanhe processos</div>
+                        <p>Monitore o andamento das suas solicitações em tempo real</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <h2 class="section-title">
+                <span class="section-icon">💰</span>
+                Principais benefícios disponíveis
+            </h2>
+            <div class="help-content">
+                <p>Conheça os principais benefícios que você pode solicitar pelo Meu INSS:</p>
+                
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">👴</div>
+                        <div class="benefit-title">Aposentadoria</div>
+                        <p>Por idade, tempo de contribuição ou invalidez</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🤝</div>
+                        <div class="benefit-title">Auxílio-Doença</div>
+                        <p>Para quando você não pode trabalhar temporariamente</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">👨‍👩‍👧‍👦</div>
+                        <div class="benefit-title">Pensão por Morte</div>
+                        <p>Para dependentes de segurados falecidos</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🤱</div>
+                        <div class="benefit-title">Salário-Maternidade</div>
+                        <p>Para mães após o nascimento ou adoção</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">⚠️</div>
+                        <div class="benefit-title">Auxílio-Acidente</div>
+                        <p>Complemento para redução de capacidade</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🏥</div>
+                        <div class="benefit-title">BPC/LOAS</div>
+                        <p>Para idosos e pessoas com deficiência</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <h2 class="section-title">
+                <span class="section-icon">📋</span>
+                Documentos necessários
+            </h2>
+            <div class="help-content">
+                <p>Para solicitar benefícios, você geralmente precisará dos seguintes documentos:</p>
+                <ul class="help-list">
+                    <li><strong>Documento de identidade:</strong> RG, CNH ou carteira profissional</li>
+                    <li><strong>CPF:</strong> Seu próprio e de dependentes (quando aplicável)</li>
+                    <li><strong>Comprovante de residência:</strong> Atualizado (últimos 3 meses)</li>
+                    <li><strong>Carteira de trabalho:</strong> Todas as páginas preenchidas</li>
+                    <li><strong>Carnês de contribuição:</strong> Para contribuintes individuais</li>
+                    <li><strong>Certidões:</strong> Nascimento, casamento ou óbito (conforme o caso)</li>
+                    <li><strong>Laudos médicos:</strong> Para benefícios por incapacidade</li>
+                </ul>
+                
+                <div class="highlight-box">
+                    <span class="icon">📱</span>
+                    <strong>Dica importante:</strong> Mantenha todos os documentos digitalizados e organizados. Muitas solicitações podem ser feitas totalmente online!
+                </div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <h2 class="section-title">
+                <span class="section-icon">❓</span>
+                Perguntas frequentes
+            </h2>
+            <div class="help-content">
+                <p><strong>Quanto tempo demora para aposentar?</strong></p>
+                <p>O prazo médio é de 45 dias, mas pode variar dependendo da complexidade do caso e da documentação apresentada.</p>
+                
+                <p><strong>Como agendar perícia médica?</strong></p>
+                <p>Pelo Meu INSS, na seção "Agendamentos". Você pode escolher data, horário e local mais convenientes.</p>
+                
+                <p><strong>Posso trabalhar recebendo auxílio-doença?</strong></p>
+                <p>Não. O auxílio-doença é pago justamente pela incapacidade temporária para o trabalho.</p>
+                
+                <p><strong>Como contestar indeferimento?</strong></p>
+                <p>Você pode entrar com recurso pelo próprio Meu INSS em até 30 dias após a decisão.</p>
+            </div>
+        </div>
+
+        <div class="info-cards">
+            <div class="info-card">
+                <h3>📞 Central 135</h3>
+                <p>Atendimento telefônico de segunda a sábado, das 7h às 22h. Ligue de qualquer lugar do Brasil.</p>
+            </div>
+            <div class="info-card">
+                <h3>🏢 Agências</h3>
+                <p>Encontre a agência mais próxima e agende seu atendimento presencial pelo Meu INSS.</p>
+            </div>
+        </div>
+
+        <div class="support-section">
+            <h2 class="support-title">Precisa de ajuda especializada?</h2>
+            <p class="support-description">
+                Nossa equipe de especialistas em previdência está pronta para esclarecer suas dúvidas específicas
+            </p>
+            
+            <button class="support-button" onclick="openSupport()">
+                Falar com Especialista
+            </button>
+            
+            <div class="support-contacts">
+                <div class="contact-item">
+                    <span>📞</span> Central 135
+                </div>
+                <div class="contact-item">
+                    <span>💬</span> Chat especializado
+                </div>
+                <div class="contact-item">
+                    <span>🕐</span> Seg a Sáb: 7h às 22h
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openSupport() {
+            alert('Redirecionando para o chat especializado em previdência...\n\nVocê será conectado com um especialista do INSS em instantes.');
+        }
+
+        // Efeito de hover nos cards de benefícios
+        document.querySelectorAll('.benefit-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
